@@ -1,0 +1,71 @@
+<view class="pyg_index">
+  <!--搜索框开始-->
+  <SearchInput></SearchInput>
+  <!--搜索框结束-->
+  <!-- 轮播图开始 -->
+  <view class="index_swiper">
+      <!-- 1.swiper标签存在默认的宽高
+      100%150px
+      2.图片表现也有默认的宽高
+      320px*240px 
+      3.设计图片和轮播图
+      先看一个原图的宽高 750*340
+      让图片的高度自适应 宽度就等于100%
+      让swiper标签的高度变成和图片的高一样即可
+      
+      图片标签
+      mode属性 渲染模式
+      widthFix 壤土篇标签宽高和图片标签的内容的宽高等比发生变化-->
+      <swiper autoplay indicator-dots circular>
+        <swiper-item
+        wx:for="{{swiperList}}"
+        wx:key="goods_id">
+          <navigator>
+          <image src="{{item.image_src}}" mode="widthFix"></image>
+          </navigator>
+        </swiper-item>
+      </swiper>
+  </view>
+  <!-- 轮播图结束 -->
+
+  <!-- 导航条开始 -->
+  <view class="index_cate" >
+    <navigator 
+    wx:for="{{catesList}}"
+    wx:key="name">
+    <image src="{{item.image_src}}" mode="widthFix"> </image>
+    </navigator>
+  </view>
+  <!-- 导航条结束 -->
+
+  <!-- 楼层开始 -->
+  <!-- 注意：第一层循环的时候已经请求到了楼层里面floor_list的值，所以在写第一层循环的时候
+  可以直接显示楼层里面的floor_list，并把第一层楼层循环设置为item1 -->
+  <view class="index_floor">
+    <view class="floor_group"
+    wx:for="{{floorList}}"
+    wx:for-item="item1"
+    wx:for-index="index1"
+    wx:key="floor_title">
+         <!--标题  -->
+        <view class="floor_title">
+        <!-- item1是第一层循环的位置，若要访问到floor_title里的图片需要一层一层访问 -->
+          <image mode="widthFix" src="{{item1.floor_title.image_src}}"></image>
+        </view>
+        <!-- 内容 -->
+        <view class="floor_list"> 
+        <!-- 第二层循环中：请求没有直接获取到product_list，所以需要由第一层循环的楼层循环
+        来访问楼层（item1）里面的product_list 并把第二层循环叫为item2 -->
+          <navigator
+          wx:for="{{item1.product_list}}"
+          wx:for-item="item2"
+          wx:for-index="index2"
+          wx:key="name">
+          <!-- 第二层循环直接就是product_list 所以直接访问一层就可以访问到 -->
+          <image src="{{item2.image_src}}" mode="{{index2===0?'widthFix':'scaleToFill'}}"></image>
+          </navigator>
+        </view>
+    </view>
+  </view>
+  <!-- 楼层结束 -->
+</view>

@@ -1,5 +1,6 @@
 //引入用来发送请求的方法引入要把路径补全
 import { request } from "../../request/index.js";
+import regeneratorRuntime from '../../lib/runtime/runtime';
 // pages/category/index.js
 Page({
 
@@ -66,15 +67,31 @@ Page({
 
   },
   //获取分类数据
-  getCates(){
-    request({url:"/categories"})
-    .then(res=>{
-      //先获取所有数据再拆分两侧的数据
-      this.Cates=res.data.message;
+  async getCates(){
+    // request({url:"/categories"})
+    // .then(res=>{
+    //   //先获取所有数据再拆分两侧的数据
+    //   this.Cates=res.data.message;
 
+    //   //把接口的数据存入到本地存储中
+    //   wx.setStorageSync("cates",{time:Date.now(),data:this.Cates});
+
+    //   //构造左侧大菜单数据
+    //   let leftMenuList=this.Cates.map(v=>v.cat_name);
+    //   //构造右侧商品数据
+    //   let rightContent=this.Cates[0].children;
+    //   this.setData({
+    //     leftMenuList,
+    //     rightContent
+    //   })
+    // })
+    //1 使用es7的async await来发送请求
+    const res=await request({url:"/categories"})
+    //如果上面的请求不出来就不会执行下面的代码
+    //先获取所有数据再拆分两侧的数据
+      this.Cates=res;
       //把接口的数据存入到本地存储中
       wx.setStorageSync("cates",{time:Date.now(),data:this.Cates});
-
       //构造左侧大菜单数据
       let leftMenuList=this.Cates.map(v=>v.cat_name);
       //构造右侧商品数据
@@ -83,7 +100,6 @@ Page({
         leftMenuList,
         rightContent
       })
-    })
   },
   //左侧菜单点击事件
   handleItemTap(e){

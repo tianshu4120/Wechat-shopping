@@ -41,7 +41,7 @@ getSwiperList(){
     .then(result =>{
       this.setData({
         //取数据
-        swiperList:result.data.message
+        swiperList:result
       })
   })
 },
@@ -51,7 +51,7 @@ getSwiperList(){
   .then(result =>{
     this.setData({
       //取数据
-      catesList:result.data.message
+      catesList:result
     })
   })
 },
@@ -61,7 +61,7 @@ getSwiperList(){
   .then(result =>{
     this.setData({
       //取数据
-      floorList:result.data.message
+      floorList:result
     })
   })
 }
